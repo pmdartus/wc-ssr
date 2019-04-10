@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>Flat tree</title>
+    </head>
+
+    <body>
+        <!-- Simple case -->
+        <x-button>
+            <shadow-root>
+                <p>Click Me</p>
+            </shadow-root>
+        </x-button>
+
+        <hr>
+
+        <!-- Slot with fallback content -->
+        <x-container>
+            <shadow-root>
+                x-container
+                <x-child>
+                    <shadow-root>
+                        x-child
+                        <slot>
+                            slot fallback
+                        </slot>
+                    </shadow-root>
+                </x-child>
+            </shadow-root>
+        </x-container>
+        
+        <hr>
+
+        <!-- Slot with slotted content -->
+        <x-container>
+            <shadow-root>
+                <x-child>
+                    slot
+                    <shadow-root>
+                        x-child
+                        <slot>
+                            slot fallback
+                        </slot>
+                    </shadow-root>
+                </x-child>
+            </shadow-root>
+        </x-container>
+
+        <hr>
+
+        <!-- Slot with nested slot content -->
+        <x-container>
+            inner slot
+            <shadow-root>
+                x-container
+                <x-child>
+                    outer slot
+                    <slot></slot>
+                    <shadow-root>
+                        x-child
+                        <slot></slot>
+                    </shadow-root>
+                </x-child>
+            </shadow-root>
+        </x-container>
+
+        <script>
+            customElements.define('shadow-root', class extends HTMLElement {
+                connectedCallback() {
+                    const parent = this.parentElement;
+                    const shadow = parent.attachShadow({ mode: 'open' });
+
+                    while (this.firstChild) {
+                        shadow.appendChild(this.firstChild, shadow.firstChild);
+                    }
+
+                    this.remove();
+                }
+            });
+        </script>
+    </body>
+</html>
