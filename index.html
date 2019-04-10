@@ -54,54 +54,63 @@
         </x-container>
 
         <script>
-            const filteredRecords = [...document.querySelectorAll('*')].filter(
-                el => {
-                    return (
-                        el.nodeType === Node.ELEMENT_NODE &&
-                        ((el.tagName.includes('-') &&
-                            el.hasAttribute('shadow')) ||
-                            el.tagName === 'SLOT')
-                    );
+            // Create a reusable tree walker that would only match on <slot> elements and elements with a shadow 
+            // attribute.
+            const treeWalker = document.createTreeWalker(
+                document.body, 
+                NodeFilter.SHOW_ELEMENT, 
+                {
+                    acceptNode(el) {
+                        return el.tagName === 'SLOT' || el.hasAttribute('shadow');
+                    }
                 },
             );
 
-            const elements = [...new Set(filteredRecords)];
+            function rehydrateTree() {
+                while(treeWalker.nextNode()) {
+                    const el = treeWalker.currentNode;
 
-            elements.forEach(el => {
-                if (el.tagName !== 'SLOT') {
-                    const shadow = el.attachShadow({
-                        mode: 'open',
-                    });
-                    if (el.hasAttribute('stylesheets')) {
-                        attachStyleToShadowRoot(
-                            shadow,
-                            el.getAttribute('stylesheets'),
-                        );
-                    }
-
-                    while (el.firstChild) {
-                        shadow.appendChild(el.firstChild, shadow.firstChild);
-                    }
-
-                    el.removeAttribute('shadow');
-                } else {
-                    const isFallback = el.hasAttribute('fallback');
-
-                    if (isFallback === false) {
-                        const shadowRoot = el.getRootNode();
-                        const hostElement = shadowRoot.host;
-
-                        while (el.firstChild) {
-                            hostElement.appendChild(
-                                el.firstChild,
-                                hostElement.firstChild,
-                            );
+                    if (el.tagName === 'SLOT') {
+                        // Slot elements
+                        const isFallback = el.hasAttribute('fallback');
+    
+                        // If the slot content is not fallback, the nodes in the slots need to
+                        // be added in the light DOM of host element, otherwise let it there.
+                        if (isFallback === false) {
+                            const shadowRoot = el.getRootNode();
+                            const hostElement = shadowRoot.host;
+    
+                            while (el.firstChild) {
+                                hostElement.appendChild(
+                                    el.firstChild,
+                                    hostElement.firstChild,
+                                );
+                            }
+                        } else {
+                            el.removeAttribute('fallback');
                         }
+                        
                     } else {
-                        el.removeAttribute('fallback');
+                        // Elements with shadow root
+                        const shadow = el.attachShadow({
+                            mode: 'open',
+                        });
+
+                        // Add all the children nodes into the element shadow root.
+                        while (el.firstChild) {
+                            shadow.appendChild(el.firstChild, shadow.firstChild);
+                        }
+                        el.removeAttribute('shadow');
+
+                        // Recursively rehydrate the element shadow root.
+                        treeWalker.currentNode = el.shadowRoot;
+                        rehydrateTree();
+                        treeWalker.currentNode = el;
                     }
                 }
-            });
+            }
+
+            rehydrateTree();
         </script>
     </body>
 </html>
