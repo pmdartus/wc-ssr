@@ -1,0 +1,107 @@
+<html>
+    <head>
+        <title>😍 Declarative Shadow DOM Test</title>
+    </head>
+
+    <body>
+        <h1>Declarative Shadow DOM Test</h1>
+
+        <!-- Simple case -->
+        <x-button shadow>
+            <p>Click Me</p>
+        </x-button>
+
+        <hr>
+
+        <!-- Slot with fallback content -->
+        <x-container shadow>
+            x-container
+            <x-child shadow>
+                x-child
+                <slot fallback>
+                    slot fallback
+                </slot>
+            </x-child>
+        </x-container>
+        
+        <hr>
+
+        <!-- Slot with slotted content -->
+        <x-container shadow>
+            x-container
+            <x-child shadow>
+                x-child
+                <slot>
+                    slot
+                </slot>
+            </x-child>
+        </x-container>
+
+        <hr>
+
+        <!-- Slot with nested slot content -->
+        <x-container shadow>
+            x-container
+            <x-child shadow>
+                x-child
+                <slot>
+                    outer slot
+                    <slot>
+                        inner slot
+                    </slot>
+                </slot>
+            </x-child>
+        </x-container>
+
+        <script>
+            const filteredRecords = [...document.querySelectorAll('*')].filter(
+                el => {
+                    return (
+                        el.nodeType === Node.ELEMENT_NODE &&
+                        ((el.tagName.includes('-') &&
+                            el.hasAttribute('shadow')) ||
+                            el.tagName === 'SLOT')
+                    );
+                },
+            );
+
+            const elements = [...new Set(filteredRecords)];
+
+            elements.forEach(el => {
+                if (el.tagName !== 'SLOT') {
+                    const shadow = el.attachShadow({
+                        mode: 'open',
+                    });
+                    if (el.hasAttribute('stylesheets')) {
+                        attachStyleToShadowRoot(
+                            shadow,
+                            el.getAttribute('stylesheets'),
+                        );
+                    }
+
+                    while (el.firstChild) {
+                        shadow.appendChild(el.firstChild, shadow.firstChild);
+                    }
+
+                    el.removeAttribute('shadow');
+                } else {
+                    const isFallback = el.hasAttribute('fallback');
+
+                    if (isFallback === false) {
+                        const shadowRoot = el.getRootNode();
+                        const hostElement = shadowRoot.host;
+
+                        while (el.firstChild) {
+                            hostElement.appendChild(
+                                el.firstChild,
+                                hostElement.firstChild,
+                            );
+                        }
+                    } else {
+                        el.removeAttribute('fallback');
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
