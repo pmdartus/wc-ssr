@@ -6,64 +6,83 @@
 </head>
 <body>
     <div id="container">
-        <x-parent shadow="">
+        <x-parent ssr-shadow-root="">
                     <p>before nested</p>
-                    <x-nested shadow="">I am nested</x-nested>
+                    <x-nested ssr-shadow-root="">I am nested</x-nested>
                     <p>after nested</p>
                 </x-parent>
     </div>
 
-    <script>// Create a reusable tree walker that would only match on <slot> elements and elements with a shadow 
-// attribute.
-const treeWalker = document.createTreeWalker(
+    <script>const treeWalker = document.createTreeWalker(
     document.body, 
     NodeFilter.SHOW_ELEMENT,
 );
 
-function rehydrateTree() {
-    while(treeWalker.nextNode()) {
-        const el = treeWalker.currentNode;
+function rehydrateSlot(slotElement) {
+    if (slotElement.hasAttribute('ssr-slot-fallback')) {
+        // If the current slot content is the fallback content, there is nothing to do
+        // except removing the flag.
+        slotElement.removeAttribute('ssr-slot-fallback');
+    } else {
+        const shadowRoot = slotElement.getRootNode();
+        const hostElement = shadowRoot.host;
 
-        if (el.hasAttribute('shadow')) {
-            // Elements with shadow root
-            const shadow = el.attachShadow({
-                mode: 'open',
-            });
+        let fallbackContent;
 
-            // Add all the children nodes into the element shadow root.
-            while (el.firstChild) {
-                shadow.appendChild(el.firstChild);
+        // 2 types of nodes can be found in the slot, either:
+        //   - a template tag with a ssr-slot-fallback attribute, the content of the template
+        //     represents the fallback content that need to be inserted into the slot.
+        //   - any other nodes, those nodes are the slotted nodes and should be added to the 
+        //     host element.
+        while (slotElement.firstChild) {
+            const slottedNode = slotElement.firstChild;
+            if (
+                slottedNode.nodeType === Node.ELEMENT_NODE && 
+                slottedNode.tagName === 'TEMPLATE' &&
+                slottedNode.hasAttribute('ssr-slot-fallback')
+            ) {
+                fallbackContent = slottedNode.content;
+                slotElement.removeChild(slottedNode);
+            } else {
+                hostElement.appendChild(slottedNode);
             }
-            el.removeAttribute('shadow');
-
-            // Recursively rehydrate the element shadow root.
-            treeWalker.currentNode = el.shadowRoot;
-            rehydrateTree();
-            treeWalker.currentNode = el;
         }
 
-        if (el.tagName === 'SLOT') {
-            const slotName = el.getAttribute('name');
+        // All the nodes in the slot are processed, we can finally
+        if (fallbackContent !== undefined) {
+            slotElement.appendChild(fallbackContent);
+        }
+    }
+}
 
-            // If the slot content is not fallback, the nodes in the slots need to
-            // be added in the light DOM of host element, otherwise let it there.
-            if (!el.hasAttribute('fallback')) {
-                const shadowRoot = el.getRootNode();
-                const hostElement = shadowRoot.host;
+function rehydrateShadowRoot(hostElement) {
+    const shadow = hostElement.attachShadow({
+        mode: 'open',
+    });
 
-                while (el.firstChild) {
-                    const slottedNode = el.firstChild;
+    // Add all the children nodes into the element shadow root.
+    while (hostElement.firstChild) {
+        shadow.appendChild(hostElement.firstChild);
+    }
+    hostElement.removeAttribute('ssr-shadow-root');
 
-                    if (slotName !== null) {
-                        slottedNode.setAttribute('slot', slotName);
-                    }
+    // Recursively rehydrate the element shadow root.
+    treeWalker.currentNode = hostElement.shadowRoot;
+    rehydrateTree();
+    treeWalker.currentNode = hostElement;
+}
 
-                    hostElement.appendChild(slottedNode);
-                }
-            } else {
-                el.removeAttribute('fallback');
-            }
-            
+function rehydrateTree() {
+    while(treeWalker.nextNode()) {
+        const { currentNode } = treeWalker;
+
+        if (currentNode.hasAttribute('ssr-shadow-root')) {
+            currentNode.removeAttribute('ssr-shadow-root');
+            rehydrateShadowRoot(currentNode);
+        }
+
+        if (currentNode.tagName === 'SLOT') {
+            rehydrateSlot(currentNode);
         }
     }
 }
