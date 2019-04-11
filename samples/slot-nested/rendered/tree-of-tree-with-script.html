@@ -5,34 +5,26 @@
     <title>slot-nested</title>
 </head>
 <body>
-    <div id="container">
+    <div id="container"><script>// From: skatejs @skatejs/ssr package
+// Copyright: Trey Shugart <treshugart@gmail.com>
+// https://github.com/skatejs/skatejs/blob/1826445409db7e21cab8853ddebf32409c29679a/packages/ssr/index.js#L3
+function __ssr() {var r,s=document.currentScript,f=s.parentNode;h=f.parentNode;f.removeChild(s);h.removeChild(f);r=h.attachShadow({mode:h.getAttribute('mode')||'open'});while(f&&f.firstChild)r.appendChild(f.firstChild);}</script>
         <x-outer><shadow-root>
                     <p>before inner</p>
                     <x-inner><shadow-root>
                     <p>before inner slot</p>
                     <slot></slot>
                     <p>after inner slot</p>
-                </shadow-root>
+                <script>__ssr()</script></shadow-root>
                         <p>before outer slot</p>
                         <slot></slot>
                         <p>after outer slot</p>
                     </x-inner>
                     <p>after inner</p>
-                </shadow-root>
+                <script>__ssr()</script></shadow-root>
             <p>I am a slotted content</p>
         </x-outer>
-    <script>customElements.define('shadow-root', class extends HTMLElement {
-    connectedCallback() {
-        const parent = this.parentElement;
-        const shadow = parent.attachShadow({ mode: 'open' });
-
-        while (this.firstChild) {
-            shadow.appendChild(this.firstChild, shadow.firstChild);
-        }
-
-        this.remove();
-    }
-});</script></div>
+    </div>
 
     <script src="/shared/assert.js"></script>
     <script src="../test.js"></script>

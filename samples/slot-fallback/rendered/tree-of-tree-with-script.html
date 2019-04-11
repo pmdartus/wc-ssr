@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>slot-fallback</title>
+</head>
+<body>
+    <div id="container"><script>// From: skatejs @skatejs/ssr package
+// Copyright: Trey Shugart <treshugart@gmail.com>
+// https://github.com/skatejs/skatejs/blob/1826445409db7e21cab8853ddebf32409c29679a/packages/ssr/index.js#L3
+function __ssr() {var r,s=document.currentScript,f=s.parentNode;h=f.parentNode;f.removeChild(s);h.removeChild(f);r=h.attachShadow({mode:h.getAttribute('mode')||'open'});while(f&&f.firstChild)r.appendChild(f.firstChild);}</script>
+        <x-slot><shadow-root>
+                    <slot>
+                        <p>I am a fallback content</p>
+                    </slot>
+                <script>__ssr()</script></shadow-root>
+            <p>I am a slotted content</p>
+        </x-slot>
+
+        <x-slot><shadow-root>
+                    <slot>
+                        <p>I am a fallback content</p>
+                    </slot>
+                <script>__ssr()</script></shadow-root></x-slot>
+    </div>
+
+    <script src="/shared/assert.js"></script>
+    <script src="../test.js"></script>
+</body>
+</html>

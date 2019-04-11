@@ -11,8 +11,6 @@
                     <x-nested><shadow-root>I am nested</shadow-root></x-nested>
                     <p>after nested</p>
                 </shadow-root></x-parent>
-    </div>
-
     <script>customElements.define('shadow-root', class extends HTMLElement {
     connectedCallback() {
         const parent = this.parentElement;
@@ -24,7 +22,7 @@
 
         this.remove();
     }
-});</script>
+});</script></div>
 
     <script src="/shared/assert.js"></script>
     <script src="../test.js"></script>

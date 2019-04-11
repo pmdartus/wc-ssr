@@ -7,8 +7,6 @@
 <body>
     <div id="container">
         <x-simple><shadow-root><p>I am a simple component</p></shadow-root></x-simple>
-    </div>
-
     <script>customElements.define('shadow-root', class extends HTMLElement {
     connectedCallback() {
         const parent = this.parentElement;
@@ -20,7 +18,7 @@
 
         this.remove();
     }
-});</script>
+});</script></div>
 
     <script src="/shared/assert.js"></script>
     <script src="../test.js"></script>

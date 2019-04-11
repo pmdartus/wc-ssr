@@ -7,8 +7,6 @@
 <body>
     <div id="container">
         <x-simple ssr-shadow-root=""><p>I am a simple component</p></x-simple>
-    </div>
-
     <script>const treeWalker = document.createTreeWalker(
     document.body, 
     NodeFilter.SHOW_ELEMENT,
@@ -83,7 +81,7 @@ function rehydrateTree() {
     }
 }
 
-rehydrateTree(container);</script>
+rehydrateTree(container);</script></div>
 
     <script src="/shared/assert.js"></script>
     <script src="../test.js"></script>

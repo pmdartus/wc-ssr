@@ -19,8 +19,6 @@
                         <p>I am a fallback content</p>
                     </slot>
                 </shadow-root></x-slot>
-    </div>
-
     <script>customElements.define('shadow-root', class extends HTMLElement {
     connectedCallback() {
         const parent = this.parentElement;
@@ -32,7 +30,7 @@
 
         this.remove();
     }
-});</script>
+});</script></div>
 
     <script src="/shared/assert.js"></script>
     <script src="../test.js"></script>

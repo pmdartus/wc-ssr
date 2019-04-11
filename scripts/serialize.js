@@ -7,7 +7,7 @@ const puppeteer = require('puppeteer');
 const SAMPLES = fs.readdirSync(path.resolve(__dirname, '../samples'));
 const FORMATS = fs.readdirSync(path.resolve(__dirname, '../formats'));
 
-const htmlTemplate = ({ name, serializedContent, rehydrationScript }) => `
+const htmlTemplate = ({ name, serializedContent }) => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +15,6 @@ const htmlTemplate = ({ name, serializedContent, rehydrationScript }) => `
 </head>
 <body>
     <div id="container">${serializedContent}</div>
-
-    <script>${rehydrationScript}</script>
 
     <script src="/shared/assert.js"></script>
     <script src="../test.js"></script>
@@ -41,7 +39,7 @@ async function run() {
                 url: `/formats/${format}/serialize.js`,
             });
         
-            const serializedContent = await page.evaluate(() => {
+            let serializedContent = await page.evaluate(() => {
                 return serialize(container);
             });
 
@@ -49,6 +47,12 @@ async function run() {
                 path.resolve(__dirname, `../formats/${format}/rehydrate.js`),
                 'utf-8'
             );
+
+            if (format === 'tree-of-tree-with-script') {
+                serializedContent = `<script>${rehydrationScript}</script>` + serializedContent;
+            } else {
+                serializedContent += `<script>${rehydrationScript}</script>`;
+            }
         
             const rendered = htmlTemplate({
                 name: sampleName,

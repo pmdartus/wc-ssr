@@ -11,8 +11,6 @@
                     <x-nested ssr-shadow-root="">I am nested</x-nested>
                     <p>after nested</p>
                 </x-parent>
-    </div>
-
     <script>const treeWalker = document.createTreeWalker(
     document.body, 
     NodeFilter.SHOW_ELEMENT,
@@ -87,7 +85,7 @@ function rehydrateTree() {
     }
 }
 
-rehydrateTree(container);</script>
+rehydrateTree(container);</script></div>
 
     <script src="/shared/assert.js"></script>
     <script src="../test.js"></script>
