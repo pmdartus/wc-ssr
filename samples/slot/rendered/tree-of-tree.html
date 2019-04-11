@@ -6,6 +6,7 @@
 </head>
 <body>
     <div id="container">
+        before root
         <x-slot><shadow-root>
                     <p>before slot</p>
                     <slot></slot>
@@ -13,6 +14,7 @@
                 </shadow-root>
             <p>I am a slotted content</p>
         </x-slot>
+        after root
     </div>
 
     <script>customElements.define('shadow-root', class extends HTMLElement {

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nested</title>
+</head>
+<body>
+    <div id="container">
+        <x-list></x-list>
+    </div>
+
+    <script>
+        customElements.define('x-list', class extends HTMLElement {
+            connectedCallback() {
+                const root = this.attachShadow({ mode: 'open' });
+                root.innerHTML = `<div>
+                    ${new Array(1000).fill().map((_, i) => `<x-item number="${i}"></x-item>`).join('')}
+                </div>`;
+            }
+        });
+
+        customElements.define('x-item', class extends HTMLElement {
+            connectedCallback() {
+                const root = this.attachShadow({ mode: 'open' });
+                root.innerHTML = `
+                    <x-checkbox></x-checkbox>
+                    <p>I am item ${this.getAttribute('number')}</p>
+                `;
+            }
+        });
+
+        customElements.define('x-checkbox', class extends HTMLElement {
+            connectedCallback() {
+                const root = this.attachShadow({ mode: 'open' });
+                root.innerHTML = `<input type="checkbox">`;
+            }
+        });
+    </script>
+</body>
+</html>

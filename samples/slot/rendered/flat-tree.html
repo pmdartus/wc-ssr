@@ -6,6 +6,7 @@
 </head>
 <body>
     <div id="container">
+        before root
         <x-slot ssr-shadow-root="">
                     <p>before slot</p>
                     <slot>
@@ -13,6 +14,7 @@
         </slot>
                     <p>after slot</p>
                 </x-slot>
+        after root
     </div>
 
     <script>const treeWalker = document.createTreeWalker(
