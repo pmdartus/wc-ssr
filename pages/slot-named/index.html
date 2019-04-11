@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slot named</title>
+</head>
+<body>
+    <div id="container">
+        <x-slot>
+            <p>I am in the default slot</p>
+            <p slot="before">I am in the before slot</p>
+            <p>I am also in the default slot</p>
+            <p slot="after">I am in the after slot</p>
+            <p>I am in the default slot as well</p>
+        </x-slot>
+    </div>
+
+    <script>
+        customElements.define('x-slot', class extends HTMLElement {
+            connectedCallback() {
+                const root = this.attachShadow({ mode: 'open' });
+                root.innerHTML = `
+                    <slot name="before"></slot>
+                    <slot></slot>
+                    <slot name="after"></slot>
+                `;
+            }
+        });
+    </script>
+    <script src="./test.js"></script>
+</body>
+</html>

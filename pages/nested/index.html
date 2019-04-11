@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nested</title>
+</head>
+<body>
+    <div id="container">
+        <x-parent></x-parent>
+    </div>
+
+    <script>
+        
+        customElements.define('x-nested', class extends HTMLElement {
+            connectedCallback() {
+                const root = this.attachShadow({ mode: 'open' });
+                root.innerHTML = `I am nested`;
+            }
+        });
+
+        customElements.define('x-parent', class extends HTMLElement {
+            connectedCallback() {
+                const root = this.attachShadow({ mode: 'open' });
+                root.innerHTML = `
+                    <p>before nested</p>
+                    <x-nested></x-nested>
+                    <p>after nested</p>
+                `;
+            }
+        });
+    </script>
+    <script src="./test.js"></script>
+</body>
+</html>

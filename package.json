@@ -1,0 +1,12 @@
+{
+  "name": "wc-ssr",
+  "version": "1.0.0",
+  "description": "Experimentation for SSR support with web components",
+  "main": "index.js",
+  "repository": "git@github.com:pmdartus/wc-ssr.git",
+  "author": "Pierre-Marie Dartus <p.dartus@salesforce.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "puppeteer": "^1.14.0"
+  }
+}
