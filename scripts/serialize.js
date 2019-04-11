@@ -16,7 +16,7 @@ const htmlTemplate = ({ name, serializedContent }) => `
 <body>
     <div id="container">${serializedContent}</div>
 
-    <script src="/shared/assert.js"></script>
+    <script src="../../shared/assert.js"></script>
     <script src="../test.js"></script>
 </body>
 </html>

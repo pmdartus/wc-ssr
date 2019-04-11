@@ -92,13 +92,13 @@ While this approach requires more DOM manipulation compared to the 2 previous on
 
 | sample        | tree of trees - script                                          | tree of trees - custom element                      | flat tree                                        |
 | ------------- | --------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------ |
-| simple        | [example](samples/large/rendered/tree-of-tree-with-script.html) | [example](samples/large/rendered/tree-of-tree.html) | [example](samples/large/rendered/flat-tree.html) |
-| nested        | [example](samples/nested/rendered/tree-of-tree-with-script.html) | [example](samples/nested/rendered/tree-of-tree.html) | [example](samples/nested/rendered/flat-tree.html) |
-| slot          | [example](samples/slot/rendered/tree-of-tree-with-script.html) | [example](samples/slot/rendered/tree-of-tree.html) | [example](samples/slot/rendered/flat-tree.html) |
-| slot-fallback | [example](samples/slot-fallback/rendered/tree-of-tree-with-script.html) | [example](samples/slot-fallback/rendered/tree-of-tree.html) | [example](samples/slot-fallback/rendered/flat-tree.html) |
-| slot-named    | [example](samples/slot-named/rendered/tree-of-tree-with-script.html) | [example](samples/slot-named/rendered/tree-of-tree.html) | [example](samples/slot-named/rendered/flat-tree.html) |
-| slot-nested   | [example](samples/slot-nested/rendered/tree-of-tree-with-script.html) | [example](samples/slot-nested/rendered/tree-of-tree.html) | [example](samples/slot-nested/rendered/flat-tree.html) |
-| large         | [example](samples/large/rendered/tree-of-tree-with-script.html) | [example](samples/large/rendered/tree-of-tree.html) | [example](samples/large/rendered/flat-tree.html) |
+| simple        | [example](https://pmdartus.github.io/wc-ssr/samples/simple/rendered/tree-of-tree-with-script.html) | [example](https://pmdartus.github.io/wc-ssr/samples/simple/rendered/tree-of-tree.html) | [example](https://pmdartus.github.io/wc-ssr/samples/simple/rendered/flat-tree.html) |
+| nested        | [example](https://pmdartus.github.io/wc-ssr/samples/nested/rendered/tree-of-tree-with-script.html) | [example](https://pmdartus.github.io/wc-ssr/samples/nested/rendered/tree-of-tree.html) | [example](https://pmdartus.github.io/wc-ssr/samples/nested/rendered/flat-tree.html) |
+| slot          | [example](https://pmdartus.github.io/wc-ssr/samples/slot/rendered/tree-of-tree-with-script.html) | [example](https://pmdartus.github.io/wc-ssr/samples/slot/rendered/tree-of-tree.html) | [example](https://pmdartus.github.io/wc-ssr/samples/slot/rendered/flat-tree.html) |
+| slot-fallback | [example](https://pmdartus.github.io/wc-ssr/samples/slot-fallback/rendered/tree-of-tree-with-script.html) | [example]https://pmdartus.github.io/wc-ssr/(samples/slot-fallback/rendered/tree-of-tree.html) | [example](https://pmdartus.github.io/wc-ssr/samples/slot-fallback/rendered/flat-tree.html) |
+| slot-named    | [example](https://pmdartus.github.io/wc-ssr/samples/slot-named/rendered/tree-of-tree-with-script.html) | [example](https://pmdartus.github.io/wc-ssr/samples/slot-named/rendered/tree-of-tree.html) | [example](https://pmdartus.github.io/wc-ssr/samples/slot-named/rendered/flat-tree.html) |
+| slot-nested   | [example](https://pmdartus.github.io/wc-ssr/samples/slot-nested/rendered/tree-of-tree-with-script.html) | [example]https://pmdartus.github.io/wc-ssr/(samples/slot-nested/rendered/tree-of-tree.html) | [example](https://pmdartus.github.io/wc-ssr/samples/slot-nested/rendered/flat-tree.html) |
+| large         | [example](https://pmdartus.github.io/wc-ssr/samples/large/rendered/tree-of-tree-with-script.html) | [example](https://pmdartus.github.io/wc-ssr/samples/large/rendered/tree-of-tree.html) | [example](https://pmdartus.github.io/wc-ssr/samples/large/rendered/flat-tree.html) |
 
 ## Contributing
 
