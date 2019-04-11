@@ -1,4 +1,15 @@
-// Create a reusable tree walker that would only match on <slot> elements and elements with a shadow 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>simple</title>
+</head>
+<body>
+    <div id="container">
+        <x-simple shadow=""><p>I am a simple component</p></x-simple>
+    </div>
+
+    <script>// Create a reusable tree walker that would only match on <slot> elements and elements with a shadow 
 // attribute.
 const treeWalker = document.createTreeWalker(
     document.body, 
@@ -53,4 +64,9 @@ function rehydrateTree() {
     }
 }
 
-rehydrateTree(container);
+rehydrateTree(container);</script>
+
+    <script src="/shared/assert.js"></script>
+    <script src="../test.js"></script>
+</body>
+</html>

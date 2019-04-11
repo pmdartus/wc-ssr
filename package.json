@@ -6,7 +6,11 @@
   "repository": "git@github.com:pmdartus/wc-ssr.git",
   "author": "Pierre-Marie Dartus <p.dartus@salesforce.com>",
   "license": "MIT",
+  "scripts": {
+    "serve": "http-server"
+  },
   "devDependencies": {
-    "puppeteer": "^1.14.0"
+    "puppeteer": "^1.14.0",
+    "http-server": "^0.11.1"
   }
 }

@@ -1,4 +1,27 @@
-// Create a reusable tree walker that would only match on <slot> elements and elements with a shadow 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>slot-fallback</title>
+</head>
+<body>
+    <div id="container">
+        <x-slot shadow="">
+                    <slot>
+                        <p>I am a fallback content</p>
+                    
+            <p>I am a slotted content</p>
+        </slot>
+                </x-slot>
+
+        <x-slot shadow="">
+                    <slot>
+                        <p>I am a fallback content</p>
+                    </slot>
+                </x-slot>
+    </div>
+
+    <script>// Create a reusable tree walker that would only match on <slot> elements and elements with a shadow 
 // attribute.
 const treeWalker = document.createTreeWalker(
     document.body, 
@@ -53,4 +76,9 @@ function rehydrateTree() {
     }
 }
 
-rehydrateTree(container);
+rehydrateTree(container);</script>
+
+    <script src="/shared/assert.js"></script>
+    <script src="../test.js"></script>
+</body>
+</html>

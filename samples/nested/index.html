@@ -9,7 +9,6 @@
     </div>
 
     <script>
-        
         customElements.define('x-nested', class extends HTMLElement {
             connectedCallback() {
                 const root = this.attachShadow({ mode: 'open' });
@@ -28,6 +27,8 @@
             }
         });
     </script>
+
+    <script src="/shared/assert.js"></script>
     <script src="./test.js"></script>
 </body>
 </html>

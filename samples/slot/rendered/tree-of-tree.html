@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>slot</title>
+</head>
+<body>
+    <div id="container">
+        <x-slot><shadow-root>
+                    <p>before slot</p>
+                    <slot></slot>
+                    <p>after slot</p>
+                </shadow-root>
+            <p>I am a slotted content</p>
+        </x-slot>
+    </div>
+
+    <script>customElements.define('shadow-root', class extends HTMLElement {
+    connectedCallback() {
+        const parent = this.parentElement;
+        const shadow = parent.attachShadow({ mode: 'open' });
+
+        while (this.firstChild) {
+            shadow.appendChild(this.firstChild, shadow.firstChild);
+        }
+
+        this.remove();
+    }
+});</script>
+
+    <script src="/shared/assert.js"></script>
+    <script src="../test.js"></script>
+</body>
+</html>

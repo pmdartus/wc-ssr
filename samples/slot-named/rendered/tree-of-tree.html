@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>slot-named</title>
+</head>
+<body>
+    <div id="container">
+        <x-slot><shadow-root>
+                    <slot name="before"></slot>
+                    <slot></slot>
+                    <slot name="after"></slot>
+                </shadow-root>
+            <p>I am in the default slot</p>
+            <p slot="before">I am in the before slot</p>
+            <p>I am also in the default slot</p>
+            <p slot="after">I am in the after slot</p>
+            <p>I am in the default slot as well</p>
+        </x-slot>
+    </div>
+
+    <script>customElements.define('shadow-root', class extends HTMLElement {
+    connectedCallback() {
+        const parent = this.parentElement;
+        const shadow = parent.attachShadow({ mode: 'open' });
+
+        while (this.firstChild) {
+            shadow.appendChild(this.firstChild, shadow.firstChild);
+        }
+
+        this.remove();
+    }
+});</script>
+
+    <script src="/shared/assert.js"></script>
+    <script src="../test.js"></script>
+</body>
+</html>
